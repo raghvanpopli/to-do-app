@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>To-Do App</title>
+  <style>
+    body {
+      display: flex;
+      font-family: Arial, sans-serif;
+      margin: 0;
+      height: 100vh;
+    }
+    #left-pane {
+      width: 50%;
+      border-right: 1px solid #ccc;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    #right-pane {
+      width: 50%;
+      padding: 20px;
+    }
+    .task {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px;
+      margin: 5px 0;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+    }
+    .completed {
+      text-decoration: line-through;
+      color: gray;
+    }
+    .delete-btn {
+      cursor: pointer;
+      color: red;
+      font-weight: bold;
+      margin-left: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div id="left-pane">
+    <h2>Tasks</h2>
+    <div id="task-list"></div>
+  </div>
+
+  <div id="right-pane">
+    <h2>Add Task</h2>
+    <form id="task-form">
+      <input type="text" id="task-input" placeholder="Enter task" required>
+      <button type="submit">Add</button>
+    </form>
+  </div>
+
+  <script>
+    const taskForm = document.getElementById("task-form");
+    const taskInput = document.getElementById("task-input");
+    const taskList = document.getElementById("task-list");
+
+    taskForm.addEventListener("submit", function(event) {
+      event.preventDefault();
+      const taskText = taskInput.value.trim();
+      if (taskText === "") return;
+
+      const taskDiv = document.createElement("div");
+      taskDiv.className = "task";
+
+      const taskSpan = document.createElement("span");
+      taskSpan.textContent = taskText;
+
+      const completeBtn = document.createElement("button");
+      completeBtn.textContent = "✔";
+      completeBtn.onclick = function() {
+        taskSpan.classList.toggle("completed");
+      };
+
+      const deleteBtn = document.createElement("span");
+      deleteBtn.textContent = "✖";
+      deleteBtn.className = "delete-btn";
+      deleteBtn.onclick = function() {
+        taskDiv.remove(); 
+      };
+
+      taskDiv.appendChild(taskSpan);
+      taskDiv.appendChild(completeBtn);
+      taskDiv.appendChild(deleteBtn);
+
+      taskList.appendChild(taskDiv);
+      taskInput.value = "";
+    });
+  </script>
+</body>
+</html>
